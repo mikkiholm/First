@@ -3,13 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My first lil stunning website</title>
+    <title>My Enhanced Website with Moving Beans</title>
     <style>
         body {
             font-family: Arial, sans-serif;
             margin: 40px;
             background-color: #f0f0f0;
             color: #333;
+            overflow: hidden; /* Prevents scrollbars from appearing */
         }
         h1 {
             color: #4CAF50;
@@ -38,15 +39,92 @@
             border-radius: 5px;
             text-decoration: none;
             font-size: 16px;
+            transition: background-color 0.3s, transform 0.3s;
         }
         .button:hover {
             background-color: #45a049;
+            transform: scale(1.05);
+        }
+        .score {
+            text-align: center;
+            font-size: 18px;
+            margin-top: 20px;
+        }
+        .bean {
+            position: absolute;
+            width: 40px;
+            height: 60px;
+            background-color: #4CAF50;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+        }
+        .eye {
+            width: 6px;
+            height: 6px;
+            background-color: white;
+            border-radius: 50%;
+            margin: 2px;
+        }
+        .mouth {
+            width: 10px;
+            height: 5px;
+            background-color: white;
+            border-radius: 0 0 5px 5px;
+            margin-top: 2px;
         }
     </style>
     <script>
+        let score = 0;
         function showAlert() {
-            alert('Mmm cuddles');
+            alert('Button clicked!');
         }
+        function increaseScore() {
+            score++;
+            document.getElementById('score').innerText = 'Score: ' + score;
+        }
+
+        function createBean() {
+            const bean = document.createElement('div');
+            bean.className = 'bean';
+            
+            const eye1 = document.createElement('div');
+            eye1.className = 'eye';
+            const eye2 = document.createElement('div');
+            eye2.className = 'eye';
+            const mouth = document.createElement('div');
+            mouth.className = 'mouth';
+            
+            bean.appendChild(eye1);
+            bean.appendChild(eye2);
+            bean.appendChild(mouth);
+            
+            document.body.appendChild(bean);
+            animateBean(bean);
+        }
+
+        function animateBean(bean) {
+            const duration = Math.random() * 5000 + 5000;
+            const startX = Math.random() * window.innerWidth;
+            const endX = Math.random() * window.innerWidth;
+            const keyframes = [
+                { transform: `translate(${startX}px, 0)` },
+                { transform: `translate(${endX}px, ${window.innerHeight}px)` }
+            ];
+            bean.animate(keyframes, {
+                duration: duration,
+                easing: 'linear',
+                iterations: Infinity
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            for (let i = 0; i < 10; i++) {
+                createBean();
+            }
+        });
     </script>
 </head>
 <body>
@@ -54,5 +132,8 @@
         <h1>Welcome to My Enhanced Website</h1>
         <p>This is a static HTML page with enhanced styling and interactivity.</p>
         <a href="#" class="button" onclick="showAlert()">Click Me</a>
+        <a href="#" class="button" onclick="increaseScore()">Increase Score</a>
+        <div class="score" id="score">Score: 0</div>
     </div>
 </body>
+</html>
